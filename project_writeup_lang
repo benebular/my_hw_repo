@@ -1,0 +1,42 @@
+# Project Design Writeup: Phonetic Drift
+
+### Project Problem and Hypothesis
+* This project is about assessing the phenomenon of phonetic drift in late L2 learners. Investigations into phonetic drift can contribute further evidence towards the validity of certain cognitive models of speech like Flege's SLM and also contribute evidence to certain trends in linguistics like the exploration of how the sounds of languages are represented in the brain of monolinguals and bilinguals. Thus, correct predictions may eventually help answer the question: do an individual's languages hold teh same phoentic space in their brain or are there separate spaces for separate languages?
+
+* In the world of machine learning, this would exstablish a binary algorithm for assessing and predicting the utterances of an individual as fitting into one of two categories. For example, whether or not the speech of an American expat living in France is more "English-like" or more "French-like."
+
+* Successful demonstrations of these predictions could aid future linguists in trying to establish categories of monolinguals and bilinguals in experiments. It would also be applicable in the real world in instances of voice recognition where it is perinent to the efficacy of voice recognition softwares.
+
+* A given individual's level of experience with a second language will likely have the most effect on predictions. The most native speakers, general input, and time spent working with and speaking a second language has a greater chance of influencing an individual's utterances in either direction.
+
+* Generally I think the workflow will be as follows: import the data and cut out the expat utterances so that I have a df per participant of each of their vowel utterances; establish English and French categories as baseline from the other speakers; develop regression models for each vowel and train on some expats; run the remaining expat data through the models for likelihood of instances being expat or not; add probabilities and make global assessments.
+
+### Datasets
+* Description of data set available, at the field level (see table)
+Data are collected from individuals' participation in a linguistic study on speech production currently in review with the working title "Phonetic drift in crowded vowel spaces: Effects of exposure in English learners of French," (Lang & Davidson, in review). The data are broken down into formant (F1, F2, and F3) measurements of individual utterances of vowels in phrasal contexts of English and French phrases. Participants belong to three distinct groups: Study Abroad speakers are American English monolinguals without any prior experience in French, Paris Resident speakers are American English-speaking expats from Paris with varying levels of experience with the French language, and French speakers are French students from the IUT in Paris. All measurements in the data represent English and French vowels for the first two groups, and exclusively French vowels for the third group. The focus of the investigation is on the English utterances of the Paris Resident group as compared to the English utterances of the Study Abroad group and the French utterances of the French speakers group.
+
+
+### Domain knowledge
+* I'm a phonetician and cognitive scientist by training. I collected this data set myself and I'm the primary researcher on the study investigating the data that is currently in the pipeline for publication. This background knowledge informs this project on a number of levels. I already have an awareness of teh data set and the direction in which I'm expecting the data to trend. I also have an expectation of the pitfalls of attempting to analyze these data with a more machine learning perspective as opposed to a regular statistical analysis (mixed-effects linear regression comparing each vowel category to others was used in teh study). Other research exists in this domain and is listed in the references section of Lang & Davidson. However, to my knowledge, none exists that approaches this problem from a machine learning perspective.
+
+* A useful benchmark is to see if it's at all possible to reproduce the results in Lang & Davidson from a machine learning perspective. If I can get at least the three high vowels, /i/, /y/, and /u/ to replicate their behavior, I'll be content.
+
+### Project Concerns
+* I'm just concerned with the scope and the time available. Stefan and I narrowed everything down and I think it is more or less feasible if I just focus on running linear regressions on individual vowel categories and then adding up the probabilities at the end to establish whether or not an invdividual fits into the expat category. I would like to maybe try to assess this with decision trees or KNN, but I still haven't quite understood them enough to jump into it, nor is it yet obvious how my dataset would benefit from those analyses. Also, this is my first time really working with Python so I have a feeling this will be a lot fo syntax learning and I'm worried that's going to delay moving forward.
+
+* The usual population assumptions are implied here because the Study Abroad and Paris Resident groups only have 11 participants each (fortunately matched for dialect), which are small Ns for generalizing to the population at large. 
+
+* The risks of this being in correct are fairly minimal. If all of the expats come out as monolingual Americans, we risk labeling them incorrectly and thus the study is moot. However, as I acknowledged above, I'm already aware of what teh data look like and I am still currently trying to resolve how this approach could potentially reproduce the results that I already have. It's just very difficult to approach this from a machine learning perspective when it's based on observing rather than predicting originally, but, hey, how does voice recognition work so well? I suppose the benefit of it ultimately being right is that it would establish the blurry line between native bilingual and non-native second language learner that I expect is very difficult for a machine to establish.
+
+* The data has already been cleaned for incorrect data.
+
+### Outcomes
+* Output would be probabilities of certain vowels belonging to the expat category or not. If not, is it then more Englihs-like or French-like, but that's if I have the time.
+
+* My target audience would expect the output to be a graphical representation of the location of each vowel in the vowel space for all three groups: Study Abroad, Paris Resident, and French. This would demonstrate the change across groups and visually represent how different each group might be from another.
+
+* The model can be fairly simple actually. It just involves taking the utterances of each vowel for the Paris Residents and running it through a single linear regression for a single vowel in hopes that it predicts whether or not that vowel is consistent with other expats. That will give an idea of invidiual probabilities for the vowels, but I can then just add those probabilities to establish a more global outlook on the totality of utterances for one individual.
+
+* All 11 expats in the Paris Resident group need to come out as one of two things: expat or not.
+
+* It's alright. It's more of an exercise to see if my world of linguistics is transferable to a machine learning environment. Also, running linear regressions is super helpful for my skill set in general. I'd be most concerned if the model doesn't work at all, although I'm expecting it will, but just have some assumption problems. I suppose then I also need to reconsider the category of the expats because they actually form a gradient and so I expect the participants on the front and back end tohave the least probability of being an expat or even not being expats according to the model.
